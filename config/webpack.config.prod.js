@@ -406,20 +406,31 @@ module.exports = {
               importLoaders: 2,
               sourceMap: shouldUseSourceMap,
             }, 'less-loader'),
+            options: {
+              javascriptEnabled: true
+            }
           },
           // Adds support for CSS Modules, but using LESS
           // using the extension .module.scss or .module.sass
           {
             test: lessModuleRegex,
-            loader: getStyleLoaders(
+            loader: [
+              ...getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  sourceMap: shouldUseSourceMap,
+                  modules: true,
+                  getLocalIdent: getCSSModuleLocalIdent,
+                },
+                'less-loader'
+              ),
               {
-                importLoaders: 2,
-                sourceMap: shouldUseSourceMap,
-                modules: true,
-                getLocalIdent: getCSSModuleLocalIdent,
-              },
-              'less-loader'
-            ),
+                loader: require.resolve('less-loader'),
+                options: {
+                  javascriptEnabled: true
+                }
+              }
+            ]
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.

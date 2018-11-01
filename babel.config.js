@@ -14,6 +14,7 @@ module.exports = {
     ['import', {
       'libraryName': 'antd',
       'libraryDirectory': 'es',
+      javascriptEnabled: true,
       'style': 'css' // `style: true` 会加载 less 文件
     }]
   ]

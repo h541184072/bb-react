@@ -309,24 +309,32 @@ module.exports = {
             exclude: lessModuleRegex,
             use: [
               ...getStyleLoaders({ importLoaders: 2 }, 'less-loader'),
-              // {
-              // 	loader: require.resolve('less-loader'),
-              // 		options: {
-              // 		  	modifyVars: { "@primary-color": "#001529" },
-              // 		},
-              // }
+              {
+                loader: require.resolve('less-loader'),
+                options: {
+                  javascriptEnabled: true
+                }
+              }
             ],
           },
           {
             test: lessModuleRegex,
-            use: getStyleLoaders(
+            use: [
+              ...getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  modules: true,
+                  getLocalIdent: getCSSModuleLocalIdent,
+                },
+                'less-loader'
+              ),
               {
-                importLoaders: 2,
-                modules: true,
-                getLocalIdent: getCSSModuleLocalIdent,
-              },
-              'less-loader'
-            ),
+                loader: require.resolve('less-loader'),
+                options: {
+                  javascriptEnabled: true
+                }
+              }
+            ]
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
