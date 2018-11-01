@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { AppContainer } from 'react-hot-loader'
 import Routes from './router'
-// import store from './public_store'
+import store from './public_store'
 
 import { LocaleProvider } from 'antd'
 import zh_CN from 'antd/lib/locale-provider/zh_CN'
@@ -13,8 +13,8 @@ class App extends Component {
         return (
             <LocaleProvider locale={zh_CN}>
                 <AppContainer>
-                    <Provider>
-                        <Routes/>
+                    <Provider store={store}>
+                        <Routes store={store}/>
                     </Provider>
                 </AppContainer>
             </LocaleProvider>
