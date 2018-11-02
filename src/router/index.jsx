@@ -16,8 +16,8 @@ export default function Page() {
         <Route exact path="/home" component={Home}/>
         <Route path="/detail" component={Detail}/>
         <Route path="/404" component={NotFound}/>
-        {/*        <Route path="/login" component={Login}/>
-        <Route component={NotFound}/>*/}
+        {/*    <Route path="/login" component={Login}/>*/}
+        <Route component={NotFound}/>
       </Switch>
     </Router>
   )
