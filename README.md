@@ -22,3 +22,8 @@
 --- babel.config.js                         ---babel配置
 --- package.json
 ```
+
+### 应用要点
+1.代码文件的组织结构
+2.确定模块的边界
+3.Store的状态树设计
