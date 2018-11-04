@@ -27,3 +27,20 @@
 1.代码文件的组织结构
 2.确定模块的边界
 3.Store的状态树设计
+
+## 1.代码文件的组织结构
+按角色组织还是按功能组织
+
+## 参考资料
+1.chapter-03 react-redux && redux_with_context
+2.chapter-04    todo
+                功能组织
+                todoList.js(mapDispatchToProps)
+                filter-link.js(children)
+
+                todo_controlled_component
+                addTodo.js(ref=>state change)
+                Store.js(combineReducers)(npm = redux-immutable-state-invariant,react-addons-perf)
+
+
+                谷歌插件 React Devtools
