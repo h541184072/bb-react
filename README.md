@@ -10,12 +10,14 @@
 |   |    |    --- ...
 |   |    +-- PageLoading                    ---Loading
 |   |    |    --- ...
-|   +-- public_axios                        ---http请求存放目录
-|   |    --- index.js
 |   +-- public_store                        ---store
 |   |    --- index.js
 |   +-- router                              ---Router
-|   +-- urlApi                              ---urlApi
+|   +-- services
+|   |    --- api.js                         ---http请求存放目录
+|   +-- utils
+|   |    --- request.js                     ---request方法
+|   |    --- utils.js                       ---通用方法
 |   --- App.jsx                             ---组件入口文件
 |   --- index.js                            ---项目的整体js入口文件，包括路由配置等
 --- .eslintrc                               ---自定义eslint配置文件，包括增加的react jsx语法限制
@@ -41,6 +43,3 @@
                 todo_controlled_component
                 addTodo.js(ref=>state change)
                 Store.js(combineReducers)(npm = redux-immutable-state-invariant,react-addons-perf)
-
-
-                谷歌插件 React Devtools
