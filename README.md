@@ -44,4 +44,3 @@
 
                 todo_controlled_component
                 addTodo.js(ref=>state change)
-                Store.js(combineReducers)(npm = redux-immutable-state-invariant,react-addons-perf)
