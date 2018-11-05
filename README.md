@@ -4,6 +4,7 @@
 +-- config/                                 ---npm run eject 后的配置文件目录
 +-- scripts/                                ---npm run 脚本文件
 +-- src/                                    ---核心代码目录
+|   +-- action                              ---action type
 |   +-- assets                              ---静态文件
 |   +-- components                          ---各式各样的组件存放目录
 |   |    +-- Exception                      ---404组件
@@ -12,6 +13,7 @@
 |   |    |    --- ...
 |   +-- public_store                        ---store
 |   |    --- index.js
+|   +-- reducer                             ---reducer
 |   +-- router                              ---Router
 |   +-- services
 |   |    --- api.js                         ---http请求存放目录
