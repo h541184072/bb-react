@@ -13,7 +13,7 @@ render(
   <LocaleProvider locale={zh_CN}>
     <AppContainer>
       <Provider store={store}>
-        <Routes store={store}/>
+        <Routes/>
       </Provider>
     </AppContainer>
   </LocaleProvider>,
