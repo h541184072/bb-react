@@ -59,12 +59,11 @@ function withRoutes(route) {
     while (len >= 0) {
         const AuthRoute = Routes[len]
         const OldComponent = Component
-        const aa = (props) => (
+        Component = (props) => (
             <AuthRoute {...props}>
                 <OldComponent {...props} />
             </AuthRoute>
         )
-        Component = aa
         len -= 1
     }
 
