@@ -14,13 +14,9 @@ export default function Page() {
                 <Route exact path="/login" component={LoginLoadable}/>
                 <Route exact path="/404" component={NotFoundLoadable}/>
                 <Route component={NotFoundLoadable}/>
-                {/*  <Route path="/404" component={NotFound}/>*/}
                 {/*    <Route path="/login" render={() => Loadable('Login')}/>
                 <Route path="/404" render={() => Loadable('Exception/404.js')}/>
                 <Route render={() => Loadable('Exception/404.js')}/>*/}
-
-                {/* <Route path="/404" component={NotFound}/>
-                <Route component={NotFound}/>*/}
             </Switch>
         </Router>
     )
