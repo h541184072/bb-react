@@ -398,40 +398,38 @@ module.exports = {
               'sass-loader'
             ),
           },
-          // Opt-in support for LESS (using .less extensions).
-          {
-            test: lessRegex,
-            exclude: lessModuleRegex,
-            loader: getStyleLoaders({
-              importLoaders: 2,
-              sourceMap: shouldUseSourceMap,
-            }, 'less-loader'),
-            options: {
-              javascriptEnabled: true
-            }
-          },
-          // Adds support for CSS Modules, but using LESS
-          // using the extension .module.scss or .module.sass
-          {
-            test: lessModuleRegex,
-            loader: [
-              ...getStyleLoaders(
-                {
-                  importLoaders: 2,
-                  sourceMap: shouldUseSourceMap,
-                  modules: true,
-                  getLocalIdent: getCSSModuleLocalIdent,
-                },
-                'less-loader'
-              ),
-              {
-                loader: require.resolve('less-loader'),
-                options: {
-                  javascriptEnabled: true
-                }
-              }
-            ]
-          },
+            {
+                test: lessRegex,
+                exclude: lessModuleRegex,
+                use: [
+                    ...getStyleLoaders({ importLoaders: 2 }, 'less-loader'),
+                    {
+                        loader: require.resolve('less-loader'),
+                        options: {
+                            javascriptEnabled: true
+                        }
+                    }
+                ],
+            },
+            {
+                test: lessModuleRegex,
+                use: [
+                    ...getStyleLoaders(
+                        {
+                            importLoaders: 2,
+                            modules: true,
+                            getLocalIdent: getCSSModuleLocalIdent,
+                        },
+                        'less-loader'
+                    ),
+                    {
+                        loader: require.resolve('less-loader'),
+                        options: {
+                            javascriptEnabled: true
+                        }
+                    }
+                ]
+            },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
           // This loader doesn't use a "test" so it will catch all modules
