@@ -1,18 +1,27 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import App from '../App'
-import Login from '@/view/Login'
-import NotFound from '@/view/Exception/404.js'
+import Loadable from './loadable' // 后面注意是否丢失props
+
+const AppLoadable = Loadable(() => import('@/App'))
+const LoginLoadable = Loadable(() => import('@/view/Login'))
+const NotFoundLoadable = Loadable(() => import('@/view/Exception/404'))
 
 export default function Page() {
-  return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={App}/>
-        <Route path="/login" component={Login}/>
-        <Route path="/404" component={NotFound}/>
-        <Route component={NotFound}/>
-      </Switch>
-    </Router>
-  )
+    return (
+        <Router>
+            <Switch>
+                <Route exact path="/" component={AppLoadable}/>
+                <Route exact path="/login" component={LoginLoadable}/>
+                <Route exact path="/404" component={NotFoundLoadable}/>
+                <Route component={NotFoundLoadable}/>
+                {/*  <Route path="/404" component={NotFound}/>*/}
+                {/*    <Route path="/login" render={() => Loadable('Login')}/>
+                <Route path="/404" render={() => Loadable('Exception/404.js')}/>
+                <Route render={() => Loadable('Exception/404.js')}/>*/}
+
+                {/* <Route path="/404" component={NotFound}/>
+                <Route component={NotFound}/>*/}
+            </Switch>
+        </Router>
+    )
 }
