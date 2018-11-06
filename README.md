@@ -44,3 +44,9 @@
 
                 todo_controlled_component
                 addTodo.js(ref=>state change)
+
+3.chapter-05 todo_with_selector (npm = reselect)
+
+4.chapter-07
+                weather_redux(fetch)
+                weather_redux_improved(abort)
