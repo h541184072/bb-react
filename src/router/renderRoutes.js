@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-const __UMI_BIGFISH_COMPAT = false
+// const __UMI_BIGFISH_COMPAT = false
 
 const RouteInstanceMap = {
     get(key) {
@@ -35,15 +35,15 @@ RouteWithProps.propTypes = {
     location: PropTypes.object,
 }
 
-function getCompatProps(props) {
-    const compatProps = {}
-    if (__UMI_BIGFISH_COMPAT) {
-        if (props.match && props.match.params && !props.params) {
-            compatProps.params = props.match.params
-        }
-    }
-    return compatProps
-}
+// function getCompatProps(props) {
+//     const compatProps = {}
+//     if (__UMI_BIGFISH_COMPAT) {
+//         if (props.match && props.match.params && !props.params) {
+//             compatProps.params = props.match.params
+//         }
+//     }
+//     return compatProps
+// }
 
 function withRoutes(route) {
     if (RouteInstanceMap.has(route)) {
@@ -113,20 +113,20 @@ export default function renderRoutes(routes, extraProps = {}, switchProps = {}) 
                                 },
                             )
                             if (route.component) {
-                                const compatProps = getCompatProps({
-                                    ...props,
-                                    ...extraProps,
-                                })
-                                const newProps = window.g_plugins.apply('modifyRouteProps', {
-                                    initialValue: {
-                                        ...props,
-                                        ...extraProps,
-                                        ...compatProps,
-                                    },
-                                    args: { route },
-                                })
+                                // const compatProps = getCompatProps({
+                                //     ...props,
+                                //     ...extraProps,
+                                // })
+                                // const newProps = window.g_plugins.apply('modifyRouteProps', {
+                                //     initialValue: {
+                                //         ...props,
+                                //         ...extraProps,
+                                //         ...compatProps,
+                                //     },
+                                //     args: { route },
+                                // })
                                 return (
-                                    <route.component {...newProps} route={route}>
+                                    <route.component {...props} route={route}>
                                         {childRoutes}
                                     </route.component>
                                 )
