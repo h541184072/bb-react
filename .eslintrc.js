@@ -8,6 +8,9 @@ module.exports = {
         },
         sourceType: 'module'
     },
+    globals: {
+        APP_TYPE: true,
+    },
     env: {
         browser: true,
         node: true,
@@ -157,11 +160,6 @@ module.exports = {
         'quotes': [2, 'single', {             //强制使用一致的反勾号、双引号或单引号
             'avoidEscape': true,
             'allowTemplateLiterals': true
-        }],
-        'semi': [2, 'never'],                 // 要求或禁止使用分号
-        'semi-spacing': [2, {                 // 强制分号之前和之后使用一致的空格
-            'before': false,
-            'after': true
         }],
         'space-before-blocks': [2, 'always'], //不以新行开始的块{前面要不要有空格
         'space-in-parens': [2, 'never'],      //小括号里面要不要有空格
