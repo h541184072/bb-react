@@ -207,6 +207,7 @@ module.exports = {
         'react/jsx-key': 'error',
         //不许传入重复的Props
         'react/jsx-no-duplicate-props': 'error',
+        //函数必须有name
         'react/display-name': 'off'
     }
 }
