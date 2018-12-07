@@ -47,9 +47,9 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 const argv = process.argv.slice(2)
 const writeStatsJson = argv.indexOf('--stats') !== -1
 
-// We require that you explictly set browsers and do not fall back to
+// We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
-const {checkBrowsers} = require('react-dev-utils/browsersHelper')
+const { checkBrowsers } = require('react-dev-utils/browsersHelper')
 checkBrowsers(paths.appPath, isInteractive)
   .then(() => {
     // First, read the current file sizes in build directory.
@@ -61,12 +61,12 @@ checkBrowsers(paths.appPath, isInteractive)
     // if you're in it, you don't end up in Trash
     fs.emptyDirSync(paths.appBuild)
     // Merge with the public folder
-    // copyPublicFolder()
+    copyPublicFolder()
     // Start the webpack build
     return build(previousFileSizes)
   })
   .then(
-    ({stats, previousFileSizes, warnings}) => {
+    ({ stats, previousFileSizes, warnings }) => {
       if (warnings.length) {
         console.log(chalk.yellow('Compiled with warnings.\n'))
         console.log(warnings.join('\n\n'))
@@ -133,11 +133,11 @@ function build(previousFileSizes) {
         }
         messages = formatWebpackMessages({
           errors: [err.message],
-          warnings: [],
+          warnings: []
         })
       } else {
         messages = formatWebpackMessages(
-          stats.toJson({all: false, warnings: true, errors: true})
+          stats.toJson({ all: false, warnings: true, errors: true })
         )
       }
       if (messages.errors.length) {
@@ -166,7 +166,7 @@ function build(previousFileSizes) {
       const resolveArgs = {
         stats,
         previousFileSizes,
-        warnings: messages.warnings,
+        warnings: messages.warnings
       }
       if (writeStatsJson) {
         return bfj
@@ -183,6 +183,6 @@ function build(previousFileSizes) {
 function copyPublicFolder() {
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
-    filter: file => file !== paths.appHtml,
+    filter: file => file !== paths.appHtml
   })
 }
