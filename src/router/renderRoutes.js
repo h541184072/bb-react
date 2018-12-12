@@ -6,34 +6,34 @@ import PageLoading from '@/components/PageLoading'
 // const __UMI_BIGFISH_COMPAT = false
 
 const RouteInstanceMap = {
-    get(key) {
-        return key._routeInternalComponent
-    },
-    has(key) {
-        return key._routeInternalComponent !== undefined
-    },
-    set(key, value) {
-        key._routeInternalComponent = value
-    },
+  get(key) {
+    return key._routeInternalComponent
+  },
+  has(key) {
+    return key._routeInternalComponent !== undefined
+  },
+  set(key, value) {
+    key._routeInternalComponent = value
+  }
 }
 
 // Support pass props from Layout to child routes
 const RouteWithProps = ({ path, exact, strict, render, location, ...rest }) => (
-    <Route
-        path={path}
-        exact={exact}
-        strict={strict}
-        location={location}
-        render={props => render({ ...props, ...rest })}
-    />
+  <Route
+    path={path}
+    exact={exact}
+    strict={strict}
+    location={location}
+    render={props => render({ ...props, ...rest })}
+  />
 )
 
 RouteWithProps.propTypes = {
-    path: PropTypes.string,
-    exact: PropTypes.bool,
-    strict: PropTypes.bool,
-    render: PropTypes.func,
-    location: PropTypes.object,
+  path: PropTypes.string,
+  exact: PropTypes.bool,
+  strict: PropTypes.bool,
+  render: PropTypes.func,
+  location: PropTypes.object
 }
 
 // function getCompatProps(props) {
@@ -47,40 +47,40 @@ RouteWithProps.propTypes = {
 // }
 
 function withRoutes(route) {
-    if (RouteInstanceMap.has(route)) {
-        return RouteInstanceMap.get(route)
-    }
+  if (RouteInstanceMap.has(route)) {
+    return RouteInstanceMap.get(route)
+  }
 
-    const { Routes } = route
-    let len = Routes.length - 1
-    let Component = args => {
-        const { render, ...props } = args
-        return render(props)
-    }
-    while (len >= 0) {
-        const AuthRoute = Routes[len]
-        const OldComponent = Component
-        Component = (props) => (
-            <AuthRoute {...props}>
-                <OldComponent {...props} />
-            </AuthRoute>
-        )
-        len -= 1
-    }
+  const { Routes } = route
+  let len = Routes.length - 1
+  let Component = args => {
+    const { render, ...props } = args
+    return render(props)
+  }
+  while (len >= 0) {
+    const AuthRoute = Routes[len]
+    const OldComponent = Component
+    Component = (props) => (
+      <AuthRoute {...props}>
+        <OldComponent {...props} />
+      </AuthRoute>
+    )
+    len -= 1
+  }
 
-    const ret = args => {
-        const { render, ...rest } = args
-        return (
-            <RouteWithProps
-                {...rest}
-                render={props => {
-                    return <Component {...props} route={route} render={render}/>
-                }}
-            />
-        )
-    }
-    RouteInstanceMap.set(route, ret)
-    return ret
+  const ret = args => {
+    const { render, ...rest } = args
+    return (
+      <RouteWithProps
+        {...rest}
+        render={props => {
+          return <Component {...props} route={route} render={render}/>
+        }}
+      />
+    )
+  }
+  RouteInstanceMap.set(route, ret)
+  return ret
 }
 
 export default function renderRoutes(routes, extraProps = {}, switchProps = {}) {
