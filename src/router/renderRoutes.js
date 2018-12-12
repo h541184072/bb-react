@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import PageLoading from '@/components/PageLoading'
 
 // const __UMI_BIGFISH_COMPAT = false
 
@@ -83,60 +84,62 @@ function withRoutes(route) {
 }
 
 export default function renderRoutes(routes, extraProps = {}, switchProps = {}) {
-    return routes ? (
-        <Switch {...switchProps}>
-            {routes.map((route, i) => {
-                if (route.redirect) {
-                    return (
-                        <Redirect
-                            key={route.key || i}
-                            from={route.path}
-                            to={route.redirect}
-                            exact={route.exact}
-                            strict={route.strict}
-                        />
-                    )
-                }
-                const RouteRoute = route.Routes ? withRoutes(route) : RouteWithProps
-                return (
-                    <RouteRoute
-                        key={route.key || i}
-                        path={route.path}
-                        exact={route.exact}
-                        strict={route.strict}
-                        render={props => {
-                            const childRoutes = renderRoutes(
-                                route.routes,
-                                {},
-                                {
-                                    location: props.location,
-                                },
-                            )
-                            if (route.component) {
-                                // const compatProps = getCompatProps({
-                                //     ...props,
-                                //     ...extraProps,
-                                // })
-                                // const newProps = window.g_plugins.apply('modifyRouteProps', {
-                                //     initialValue: {
-                                //         ...props,
-                                //         ...extraProps,
-                                //         ...compatProps,
-                                //     },
-                                //     args: { route },
-                                // })
-                                return (
-                                    <route.component {...props} route={route}>
-                                        {childRoutes}
-                                    </route.component>
-                                )
-                            } else {
-                                return childRoutes
-                            }
-                        }}
-                    />
+  return routes ? (
+    <Suspense fallback={<PageLoading/>}>
+      <Switch {...switchProps}>
+        {routes.map((route, i) => {
+          if (route.redirect) {
+            return (
+              <Redirect
+                key={route.key || i}
+                from={route.path}
+                to={route.redirect}
+                exact={route.exact}
+                strict={route.strict}
+              />
+            )
+          }
+          const RouteRoute = route.Routes ? withRoutes(route) : RouteWithProps
+          return (
+            <RouteRoute
+              key={route.key || i}
+              path={route.path}
+              exact={route.exact}
+              strict={route.strict}
+              render={props => {
+                const childRoutes = renderRoutes(
+                  route.routes,
+                  {},
+                  {
+                    location: props.location
+                  }
                 )
-            })}
-        </Switch>
-    ) : null
+                if (route.component) {
+                  // const compatProps = getCompatProps({
+                  //     ...props,
+                  //     ...extraProps,
+                  // })
+                  // const newProps = window.g_plugins.apply('modifyRouteProps', {
+                  //     initialValue: {
+                  //         ...props,
+                  //         ...extraProps,
+                  //         ...compatProps,
+                  //     },
+                  //     args: { route },
+                  // })
+                  return (
+                    <route.component {...props} route={route}>
+                      {childRoutes}
+                    </route.component>
+                  )
+                } else {
+                  return childRoutes
+                }
+              }}
+            />
+          )
+        })}
+      </Switch>
+    </Suspense>
+  ) : null
 }
