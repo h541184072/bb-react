@@ -6,11 +6,11 @@ export default [
     exact: true,
     component: Loadable(() => import('@/view/Login'))
   },
-  // {
-  //       path: '/',
-  //       exact: true,
-  //       component: Loadable(() => import('@/view/layouts/BasicLayout.js'))
-  //   },
+  {
+    path: '/',
+    exact: true,
+    component: Loadable(() => import('@/view/Layout'))
+  },
   {
     component: Loadable(() => import('@/view/Exception/404'))
   }

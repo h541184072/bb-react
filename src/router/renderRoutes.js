@@ -16,7 +16,7 @@ const RouteInstanceMap = {
     },
 }
 
-// Support pass props from layout to child routes
+// Support pass props from Layout to child routes
 const RouteWithProps = ({ path, exact, strict, render, location, ...rest }) => (
     <Route
         path={path}
