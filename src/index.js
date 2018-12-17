@@ -8,6 +8,7 @@ import store from './public_store'
 import { LocaleProvider } from 'antd'
 import zh_CN from 'antd/lib/locale-provider/zh_CN'
 import 'moment/locale/zh-cn'
+import './assets/style/global.scss'
 
 render(
   <LocaleProvider locale={zh_CN}>

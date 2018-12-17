@@ -28,8 +28,15 @@ export default [
   },
   {
     path: '/',
-    exact: true,
-    component: AsyncComponent('Layout')
+    component: AsyncComponent('Layout'),
+    routes: [
+      {
+        path: '/404',
+        name: '404',
+        component: AsyncComponent('NotFound'),
+        exact: true
+      }
+    ]
   },
   {
     component: AsyncComponent('NotFound')

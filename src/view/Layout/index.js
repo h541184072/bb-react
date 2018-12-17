@@ -16,6 +16,7 @@ class BasicLayout extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     const { collapsed } = this.state
     return (
       <Layout>
