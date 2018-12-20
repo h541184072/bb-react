@@ -3,6 +3,7 @@ import { Menu, Icon } from 'antd'
 import { isUrl } from '@/utils/utils'
 import styles from './BaseMenu.module.less'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import * as Actions from '@/redux/actions/menu'
 import PropTypes from 'prop-types'
 
@@ -23,6 +24,13 @@ const getIcon = icon => {
 }
 
 class BaseMenu extends PureComponent {
+  componentDidMount = () => {
+    const {
+      getMenuData
+    } = this.props
+    getMenuData()
+  }
+
   getNavMenuItems = (menusData, parent) => {
     if (!menusData) return []
     return menusData
@@ -117,7 +125,8 @@ class BaseMenu extends PureComponent {
 }
 
 BaseMenu.propTypes = {
-  menuData: PropTypes.array.isRequired
+  menuData: PropTypes.array.isRequired,
+  getMenuData: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -126,4 +135,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, Actions)(BaseMenu)
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getMenuData: Actions.getMenuData
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(BaseMenu)

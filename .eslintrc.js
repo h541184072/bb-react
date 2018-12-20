@@ -137,10 +137,7 @@ module.exports = {
         }],
         'no-unreachable': 2,                //不能有无法执行的代码
         'no-unsafe-finally': 2,             //不允许控制流语句最终阻塞
-        'no-unused-vars': [2, {             //不允许存在未使用的变量
-            'vars': 'all',
-            'args': 'none'
-        }],
+        'no-unused-vars': 0,
         'no-useless-call': 2,               //禁止不必要的call和apply
         'no-useless-computed-key': 2,       //不允许在对象文字中使用不必要的计算属性键
         'no-useless-constructor': 2,        //禁止不必要的构造函数

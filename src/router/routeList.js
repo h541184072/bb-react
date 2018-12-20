@@ -24,21 +24,26 @@ export default [
   {
     path: '/login',
     exact: true,
-    component: AsyncComponent('Login')
+    component: AsyncComponent('Login'),
   },
   {
     path: '/',
     component: AsyncComponent('Layout'),
+    Routes: [require('./Authorized').default],
+    authority: [
+      'admin',
+      'user',
+    ],
     routes: [
       {
         path: '/404',
         name: '404',
         component: AsyncComponent('NotFound'),
-        exact: true
-      }
-    ]
+        exact: true,
+      },
+    ],
   },
   {
-    component: AsyncComponent('NotFound')
-  }
+    component: AsyncComponent('NotFound'),
+  },
 ]
