@@ -136,6 +136,8 @@ BaseMenu.propTypes = {
   menuData: PropTypes.array.isRequired,
   getMenuData: PropTypes.func.isRequired,
   route: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+
 }
 
 const mapStateToProps = (state) => {
