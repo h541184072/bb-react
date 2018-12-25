@@ -7,11 +7,12 @@ import PageLoading from '@/components/PageLoading'
 const BaseMenu = lazy(() => import('./BaseMenu'))
 const {
   logo,
-  trigger
+  trigger,
 } = css
 const { Sider } = Layout
 
-function BasicSider({ collapsed, toggleCollapsed }) {
+function BasicSider(props) {
+  const { collapsed, toggleCollapsed, ...rest } = props
   return (
     <Sider
       trigger={null}
@@ -29,7 +30,7 @@ function BasicSider({ collapsed, toggleCollapsed }) {
         <h1>XX工作台</h1>
       </div>
       <Suspense fallback={<PageLoading/>}>
-        <BaseMenu/>
+        <BaseMenu {...rest}/>
       </Suspense>
     </Sider>
   )
@@ -37,7 +38,7 @@ function BasicSider({ collapsed, toggleCollapsed }) {
 
 BasicSider.propTypes = {
   collapsed: PropTypes.bool.isRequired,
-  toggleCollapsed: PropTypes.func.isRequired
+  toggleCollapsed: PropTypes.func.isRequired,
 }
 
 export default BasicSider

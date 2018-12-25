@@ -20,7 +20,7 @@ class BasicLayout extends React.Component {
     const { collapsed } = this.state
     return (
       <Layout>
-        <Sider collapsed={collapsed} toggleCollapsed={this.toggleCollapsed}/>
+        <Sider {...this.props} collapsed={collapsed} toggleCollapsed={this.toggleCollapsed}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}/>
           <Content style={{

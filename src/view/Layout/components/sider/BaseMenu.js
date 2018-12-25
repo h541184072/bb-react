@@ -26,9 +26,10 @@ const getIcon = icon => {
 class BaseMenu extends PureComponent {
   componentDidMount = () => {
     const {
-      getMenuData
+      getMenuData,
+      route: { routes, authority },
     } = this.props
-    getMenuData()
+    getMenuData({ routes, authority })
   }
 
   getNavMenuItems = (menusData, parent) => {
@@ -106,9 +107,16 @@ class BaseMenu extends PureComponent {
     return <span>{name}</span>
   }
 
+  conversionPath = path => {
+    if (path && path.indexOf('http') === 0) {
+      return path;
+    }
+    return `/${path || ''}`.replace(/\/+/g, '/');
+  }
+
   render() {
     const {
-      menuData
+      menuData,
     } = this.props
     return (
       <Menu
@@ -126,17 +134,18 @@ class BaseMenu extends PureComponent {
 
 BaseMenu.propTypes = {
   menuData: PropTypes.array.isRequired,
-  getMenuData: PropTypes.func.isRequired
+  getMenuData: PropTypes.func.isRequired,
+  route: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => {
   return {
-    menuData: state.menu.menuData
+    menuData: state.menu.menuData,
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getMenuData: Actions.getMenuData
+  getMenuData: Actions.getMenuData,
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseMenu)
