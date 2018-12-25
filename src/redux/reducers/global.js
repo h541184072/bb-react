@@ -5,7 +5,6 @@ const initState = {
 }
 
 export default (state = initState, action) => {
-  debugger
   switch (action.type) {
     case TYPE.Toggle_Collapsed:
       return {

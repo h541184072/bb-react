@@ -2,7 +2,7 @@ import React from 'react'
 import { Layout } from 'antd'
 import Sider from './components/sider'
 import Media from 'react-media'
-import { changeLayoutCollapsed } from '@/redux/actions/global'
+import * as Actions from '@/redux/actions/global'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
@@ -26,8 +26,7 @@ class BasicLayout extends React.Component {
   }
 
   toggleCollapsed = () => {
-    const { collapsed } = this.props
-    debugger
+    const { collapsed, changeLayoutCollapsed } = this.props
     changeLayoutCollapsed(!collapsed)
   }
 
@@ -35,7 +34,7 @@ class BasicLayout extends React.Component {
     console.log(this.props)
     return (
       <Layout>
-        <Sider {...this.props} toggleCollapsed={this.toggleCollapsed}/>
+        <Sider {...this.props} onCollapse={this.props.changeLayoutCollapsed} toggleCollapsed={this.toggleCollapsed}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}/>
           <Content style={{
@@ -57,12 +56,12 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  changeLayoutCollapsed: changeLayoutCollapsed,
+  changeLayoutCollapsed: Actions.changeLayoutCollapsed,
 }, dispatch)
-//
+
 // const mapDispatchToProps = (dispatch) => {
 //   return {
-//     changeLayoutCollapsed: (bool) => dispatch(changeLayoutCollapsed(bool)),
+//     changeLayoutCollapsed: (bool) => dispatch(Actions.changeLayoutCollapsed(bool)),
 //   }
 // }
 

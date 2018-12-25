@@ -12,7 +12,7 @@ const {
 const { Sider } = Layout
 
 function BasicSider(props) {
-  const { collapsed, toggleCollapsed, ...rest } = props
+  const { collapsed, toggleCollapsed, onCollapse, ...rest } = props
   return (
     <Sider
       trigger={null}
@@ -20,6 +20,7 @@ function BasicSider(props) {
       width={256}
       breakpoint="lg"
       collapsed={collapsed}
+      onCollapse={onCollapse}
     >
       <div className={logo}>
         <Icon
@@ -39,6 +40,7 @@ function BasicSider(props) {
 BasicSider.propTypes = {
   collapsed: PropTypes.bool.isRequired,
   toggleCollapsed: PropTypes.func.isRequired,
+  onCollapse: PropTypes.func.isRequired,
 }
 
 export default BasicSider
