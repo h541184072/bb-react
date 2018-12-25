@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react'
 import { Menu, Icon } from 'antd'
 import { isUrl } from '@/utils/utils'
 import styles from './BaseMenu.module.less'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as Actions from '@/redux/actions/menu'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import { getDefaultCollapsedSubMenus, getMenuMatches } from './SiderMenuUtils'
+import { urlToList } from './pathTools'
 
 const { SubMenu } = Menu
 
@@ -24,12 +24,11 @@ const getIcon = icon => {
 }
 
 class BaseMenu extends PureComponent {
-  componentDidMount = () => {
-    const {
-      getMenuData,
-      route: { routes, authority },
-    } = this.props
-    getMenuData({ routes, authority })
+  constructor(props) {
+    super(props)
+    this.state = {
+      openKeys: getDefaultCollapsedSubMenus(props),
+    }
   }
 
   getNavMenuItems = (menusData, parent) => {
@@ -86,45 +85,52 @@ class BaseMenu extends PureComponent {
         </a>
       )
     }
-    // const { location, isMobile, onCollapse } = this.props;
-    // return (
-    //   <Link
-    //     to={itemPath}
-    //     target={target}
-    //     replace={itemPath === location.pathname}
-    //     onClick={
-    //       isMobile
-    //         ? () => {
-    //           onCollapse(true);
-    //         }
-    //         : undefined
-    //     }
-    //   >
-    //     {icon}
-    //     <span>{name}</span>
-    //   </Link>
-    // );
-    return <span>{name}</span>
+    const { location } = this.props
+    return (
+      <Link
+        to={itemPath}
+        target={target}
+        replace={itemPath === location.pathname}
+      >
+        {icon}
+        <span>{name}</span>
+      </Link>
+    )
   }
 
   conversionPath = path => {
     if (path && path.indexOf('http') === 0) {
-      return path;
+      return path
     }
-    return `/${path || ''}`.replace(/\/+/g, '/');
+    return `/${path || ''}`.replace(/\/+/g, '/')
+  }
+
+  // Get the currently selected menu
+  getSelectedMenuKeys = pathname => {
+    const { flatMenuKeys } = this.props
+    return urlToList(pathname).map(itemPath => getMenuMatches(flatMenuKeys, itemPath).pop())
   }
 
   render() {
     const {
       menuData,
+      collapsed,
+      location: { pathname },
     } = this.props
+    const { openKeys } = this.state
+    const defaultProps = collapsed ? {} : { openKeys }
+    let selectedKeys = this.getSelectedMenuKeys(pathname)
+    if (!selectedKeys.length && openKeys) {
+      selectedKeys = [openKeys[openKeys.length - 1]];
+    }
     return (
       <Menu
+        {...defaultProps}
+        selectedKeys={selectedKeys}
         key='Menu'
         theme="dark"
         mode="inline"
         style={{ padding: '16px 0', width: '100%' }}
-        defaultSelectedKeys={['1']}
       >
         {this.getNavMenuItems(menuData)}
       </Menu>
@@ -134,20 +140,8 @@ class BaseMenu extends PureComponent {
 
 BaseMenu.propTypes = {
   menuData: PropTypes.array.isRequired,
-  getMenuData: PropTypes.func.isRequired,
-  route: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-
+  collapsed: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = (state) => {
-  return {
-    menuData: state.menu.menuData,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getMenuData: Actions.getMenuData,
-}, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(BaseMenu)
+export default BaseMenu

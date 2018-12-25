@@ -40,8 +40,29 @@ export default [
         name: '404',
         component: AsyncComponent('NotFound'),
         exact: true,
+        routes: [
+          {
+            path: '/404/4042',
+            name: '404',
+            component: AsyncComponent('NotFound'),
+            exact: true,
+          },
+          {
+            path: '/404/4043',
+            name: '404',
+            component: AsyncComponent('NotFound'),
+            exact: true,
+          },
+          {
+            path: '/404/4044',
+            name: '404',
+            component: AsyncComponent('NotFound'),
+            exact: true,
+          },
+        ],
       },
-    ],
+    ]
+    ,
   },
   {
     component: AsyncComponent('NotFound'),

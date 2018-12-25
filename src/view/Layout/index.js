@@ -2,7 +2,8 @@ import React from 'react'
 import { Layout } from 'antd'
 import Sider from './components/sider'
 import Media from 'react-media'
-import * as Actions from '@/redux/actions/global'
+import * as GlobalActions from '@/redux/actions/global'
+import * as MenuActions from '@/redux/actions/menu'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
@@ -13,7 +14,18 @@ class BasicLayout extends React.Component {
   static propTypes = {
     collapsed: PropTypes.bool.isRequired,
     changeLayoutCollapsed: PropTypes.func.isRequired,
+    getMenuData: PropTypes.func.isRequired,
+    route: PropTypes.object.isRequired,
     isMobile: PropTypes.bool.isRequired,
+    menuData: PropTypes.array.isRequired,
+  }
+
+  componentDidMount = () => {
+    const {
+      getMenuData,
+      route: { routes, authority },
+    } = this.props
+    getMenuData({ routes, authority })
   }
 
   componentDidUpdate(preProps) {
@@ -52,11 +64,13 @@ class BasicLayout extends React.Component {
 const mapStateToProps = (state) => {
   return {
     collapsed: state.global.collapsed,
+    menuData: state.menu.menuData,
   }
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  changeLayoutCollapsed: Actions.changeLayoutCollapsed,
+  changeLayoutCollapsed: GlobalActions.changeLayoutCollapsed,
+  getMenuData: MenuActions.getMenuData,
 }, dispatch)
 
 // const mapDispatchToProps = (dispatch) => {
