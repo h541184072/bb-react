@@ -4,7 +4,7 @@ import { isUrl } from '@/utils/utils'
 import styles from './BaseMenu.module.less'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { getDefaultCollapsedSubMenus, getMenuMatches } from './SiderMenuUtils'
+import { getDefaultCollapsedSubMenus, getFlatMenuKeys, getMenuMatches } from './SiderMenuUtils'
 import { urlToList } from './pathTools'
 
 const { SubMenu } = Menu
@@ -22,12 +22,16 @@ const getIcon = icon => {
   }
   return icon
 }
-
 class BaseMenu extends PureComponent {
   constructor(props) {
     super(props)
+    const {
+      menuData,
+    } = props
+    const flatMenuKeys = getFlatMenuKeys(menuData)
     this.state = {
-      openKeys: getDefaultCollapsedSubMenus(props),
+      openKeys: getDefaultCollapsedSubMenus(props, flatMenuKeys),
+      flatMenuKeys
     }
   }
 
@@ -107,8 +111,25 @@ class BaseMenu extends PureComponent {
 
   // Get the currently selected menu
   getSelectedMenuKeys = pathname => {
-    const { flatMenuKeys } = this.props
+    const { flatMenuKeys } = this.state
     return urlToList(pathname).map(itemPath => getMenuMatches(flatMenuKeys, itemPath).pop())
+  }
+
+  isMainMenu = key => {
+    const { menuData } = this.props
+    return menuData.some(item => {
+      if (key) {
+        return item.key === key || item.path === key
+      }
+      return false
+    })
+  }
+
+  handleOpenChange = openKeys => {
+    const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1
+    this.setState({
+      openKeys: moreThanOne ? [openKeys.pop()] : [...openKeys],
+    })
   }
 
   render() {
@@ -121,12 +142,13 @@ class BaseMenu extends PureComponent {
     const defaultProps = collapsed ? {} : { openKeys }
     let selectedKeys = this.getSelectedMenuKeys(pathname)
     if (!selectedKeys.length && openKeys) {
-      selectedKeys = [openKeys[openKeys.length - 1]];
+      selectedKeys = [openKeys[openKeys.length - 1]]
     }
     return (
       <Menu
         {...defaultProps}
         selectedKeys={selectedKeys}
+        onOpenChange={this.handleOpenChange}
         key='Menu'
         theme="dark"
         mode="inline"

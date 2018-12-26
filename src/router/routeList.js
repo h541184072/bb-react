@@ -35,11 +35,11 @@ export default [
       'user',
     ],
     routes: [
+      { path: '/', redirect: '/404/4042' },
       {
         path: '/404',
         name: '404',
-        component: AsyncComponent('NotFound'),
-        exact: true,
+        icon: 'dashboard',
         routes: [
           {
             path: '/404/4042',

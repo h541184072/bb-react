@@ -3,7 +3,6 @@ import { Icon, Layout } from 'antd'
 import PropTypes from 'prop-types'
 import css from './index.module.less'
 import PageLoading from '@/components/PageLoading'
-import { getFlatMenuKeys } from './SiderMenuUtils'
 
 const BaseMenu = lazy(() => import('./BaseMenu'))
 const {
@@ -13,8 +12,7 @@ const {
 const { Sider } = Layout
 
 function BasicSider(props) {
-  const { collapsed, toggleCollapsed, onCollapse, ...rest } = props
-  const flatMenuKeys = getFlatMenuKeys(props.menuData)
+  const { collapsed, toggleCollapsed } = props
   return (
     <Sider
       trigger={null}
@@ -22,7 +20,6 @@ function BasicSider(props) {
       width={256}
       breakpoint="lg"
       collapsed={collapsed}
-      onCollapse={onCollapse}
     >
       <div className={logo}>
         <Icon
@@ -33,7 +30,7 @@ function BasicSider(props) {
         <h1>XX工作台</h1>
       </div>
       <Suspense fallback={<PageLoading/>}>
-        <BaseMenu {...rest} flatMenuKeys={flatMenuKeys}/>
+        <BaseMenu {...props}/>
       </Suspense>
     </Sider>
   )
@@ -42,7 +39,6 @@ function BasicSider(props) {
 BasicSider.propTypes = {
   collapsed: PropTypes.bool.isRequired,
   toggleCollapsed: PropTypes.func.isRequired,
-  onCollapse: PropTypes.func.isRequired,
 }
 
 export default BasicSider
