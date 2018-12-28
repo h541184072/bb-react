@@ -35,7 +35,7 @@ export default [
       'user',
     ],
     routes: [
-      { path: '/', redirect: '/404/4042' },
+      { path: '/', redirect: '/404/4042', 'exact': true },
       {
         path: '/404',
         name: '404',
