@@ -7,6 +7,9 @@ import * as MenuActions from '@/redux/actions/menu'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
+import Authorized from '@/utils/Authorized'
+import Exception403 from '@/view/Exception/403'
+import pathToRegexp from 'path-to-regexp'
 
 const { Header, Content } = Layout
 
@@ -42,7 +45,30 @@ class BasicLayout extends React.Component {
     changeLayoutCollapsed(!collapsed)
   }
 
+  getRouterAuthority = (pathname, routeData) => {
+    let routeAuthority = ['noAuthority']
+    const getAuthority = (key, routes) => {
+      routes.map(route => {
+        if (route.path && pathToRegexp(route.path).test(key)) {
+          routeAuthority = route.authority
+        } else if (route.routes) {
+          routeAuthority = getAuthority(key, route.routes)
+        }
+        return route
+      })
+      return routeAuthority
+    }
+    return getAuthority(pathname, routeData)
+  }
+
   render() {
+    const {
+      children,
+      location: { pathname },
+      route: { routes },
+    } = this.props
+    const routerConfig = this.getRouterAuthority(pathname, routes)
+    console.log(333)
     return (
       <Layout>
         <Sider {...this.props} toggleCollapsed={this.toggleCollapsed}/>
@@ -52,7 +78,9 @@ class BasicLayout extends React.Component {
             margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280,
           }}
           >
-            Content
+            <Authorized authority={routerConfig} noMatch={<Exception403/>}>
+              {children}
+            </Authorized>
           </Content>
         </Layout>
       </Layout>
