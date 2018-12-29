@@ -1,10 +1,9 @@
-import React, { Suspense, lazy } from 'react'
+import React from 'react'
 import { Icon, Layout } from 'antd'
 import PropTypes from 'prop-types'
 import css from './index.module.less'
-import PageLoading from '@/components/PageLoading'
+import BaseMenu from './BaseMenu'
 
-const BaseMenu = lazy(() => import('./BaseMenu'))
 const {
   logo,
   trigger,
@@ -29,9 +28,7 @@ function BasicSider(props) {
         />
         <h1>XX工作台</h1>
       </div>
-      <Suspense fallback={<PageLoading/>}>
-        <BaseMenu {...props}/>
-      </Suspense>
+      <BaseMenu {...props}/>
     </Sider>
   )
 }

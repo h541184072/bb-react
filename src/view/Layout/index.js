@@ -68,7 +68,6 @@ class BasicLayout extends React.Component {
       route: { routes },
     } = this.props
     const routerConfig = this.getRouterAuthority(pathname, routes)
-    console.log(333)
     return (
       <Layout>
         <Sider {...this.props} toggleCollapsed={this.toggleCollapsed}/>

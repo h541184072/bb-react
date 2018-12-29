@@ -22,19 +22,8 @@ const getIcon = icon => {
   }
   return icon
 }
-class BaseMenu extends PureComponent {
-  constructor(props) {
-    super(props)
-    const {
-      menuData,
-    } = props
-    const flatMenuKeys = getFlatMenuKeys(menuData)
-    this.state = {
-      openKeys: getDefaultCollapsedSubMenus(props, flatMenuKeys),
-      flatMenuKeys
-    }
-  }
 
+class BaseMenu extends PureComponent {
   getNavMenuItems = (menusData, parent) => {
     if (!menusData) return []
     return menusData
@@ -110,8 +99,7 @@ class BaseMenu extends PureComponent {
   }
 
   // Get the currently selected menu
-  getSelectedMenuKeys = pathname => {
-    const { flatMenuKeys } = this.state
+  getSelectedMenuKeys = (pathname, flatMenuKeys) => {
     return urlToList(pathname).map(itemPath => getMenuMatches(flatMenuKeys, itemPath).pop())
   }
 
@@ -138,9 +126,10 @@ class BaseMenu extends PureComponent {
       collapsed,
       location: { pathname },
     } = this.props
-    const { openKeys } = this.state
+    const flatMenuKeys = getFlatMenuKeys(menuData)
+    const openKeys = getDefaultCollapsedSubMenus(this.props, flatMenuKeys)
     const defaultProps = collapsed ? {} : { openKeys }
-    let selectedKeys = this.getSelectedMenuKeys(pathname)
+    let selectedKeys = this.getSelectedMenuKeys(pathname, flatMenuKeys)
     if (!selectedKeys.length && openKeys) {
       selectedKeys = [openKeys[openKeys.length - 1]]
     }
