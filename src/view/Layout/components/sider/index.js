@@ -3,6 +3,7 @@ import { Icon, Layout } from 'antd'
 import PropTypes from 'prop-types'
 import css from './index.module.less'
 import BaseMenu from './BaseMenu'
+import { getFlatMenuKeys } from './SiderMenuUtils'
 
 const {
   logo,
@@ -11,7 +12,9 @@ const {
 const { Sider } = Layout
 
 function BasicSider(props) {
-  const { collapsed, toggleCollapsed } = props
+  const { collapsed, toggleCollapsed, menuData } = props
+  const flatMenuKeys = getFlatMenuKeys(menuData)
+
   return (
     <Sider
       trigger={null}
@@ -28,7 +31,7 @@ function BasicSider(props) {
         />
         <h1>XX工作台</h1>
       </div>
-      <BaseMenu {...props}/>
+      <BaseMenu {...props} flatMenuKeys={flatMenuKeys}/>
     </Sider>
   )
 }

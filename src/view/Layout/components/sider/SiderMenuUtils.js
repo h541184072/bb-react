@@ -28,9 +28,10 @@ export const getMenuMatches = (flatMenuKeys, path) =>
  * 获得菜单子节点
  * @memberof SiderMenu
  */
-export const getDefaultCollapsedSubMenus = (props, flatMenuKeys) => {
+export const getDefaultCollapsedSubMenus = (props) => {
   const {
     location: { pathname },
+    flatMenuKeys
   } = props
   return urlToList(pathname)
     .map(item => getMenuMatches(flatMenuKeys, item)[0])

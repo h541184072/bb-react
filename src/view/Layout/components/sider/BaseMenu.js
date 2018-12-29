@@ -4,7 +4,7 @@ import { isUrl } from '@/utils/utils'
 import styles from './BaseMenu.module.less'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { getDefaultCollapsedSubMenus, getFlatMenuKeys, getMenuMatches } from './SiderMenuUtils'
+import { getDefaultCollapsedSubMenus, getMenuMatches } from './SiderMenuUtils'
 import { urlToList } from './pathTools'
 
 const { SubMenu } = Menu
@@ -24,6 +24,13 @@ const getIcon = icon => {
 }
 
 class BaseMenu extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      openKeys: getDefaultCollapsedSubMenus(props),
+    }
+  }
+
   getNavMenuItems = (menusData, parent) => {
     if (!menusData) return []
     return menusData
@@ -124,10 +131,10 @@ class BaseMenu extends PureComponent {
     const {
       menuData,
       collapsed,
+      flatMenuKeys,
       location: { pathname },
     } = this.props
-    const flatMenuKeys = getFlatMenuKeys(menuData)
-    const openKeys = getDefaultCollapsedSubMenus(this.props, flatMenuKeys)
+    const { openKeys } = this.state
     const defaultProps = collapsed ? {} : { openKeys }
     let selectedKeys = this.getSelectedMenuKeys(pathname, flatMenuKeys)
     if (!selectedKeys.length && openKeys) {
@@ -151,6 +158,7 @@ class BaseMenu extends PureComponent {
 
 BaseMenu.propTypes = {
   menuData: PropTypes.array.isRequired,
+  flatMenuKeys: PropTypes.array.isRequired,
   location: PropTypes.object.isRequired,
   collapsed: PropTypes.bool.isRequired,
 }
